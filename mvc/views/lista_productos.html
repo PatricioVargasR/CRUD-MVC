@@ -1,0 +1,34 @@
+$def with(productos)
+<div class="contenedor_tabla">
+    <table>
+        <thead>
+            <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Existencia</th>
+                <th scope="col">Opciones</th>
+            </tr>
+        </thead>
+    <tbody>
+        $for campo in productos:
+        <tr>
+            <th scope="row">$campo['nombre']</th>
+            <td>$campo['descripción']</td>
+                <td>$campo['precio']</td>
+                <td>$campo['existencias']</td>
+                <td>
+                    <span>
+                        <a href="/borrar">borrar</a>
+                    </span>
+                    <span>
+                        <a href="/actualizar">actualizar</a>
+                    </span>
+                    <span>
+                        <a href="/detalle">detalles</a>
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
