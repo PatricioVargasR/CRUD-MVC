@@ -8,4 +8,5 @@ class BorrarProductos:
         try:
             return render.borrar_productos()
         except Exception as error:
-            return f'Ocurrió un error: {error} - 106 | Controlador'
+            print(f'Ocurrió un error: {error} - 106 | Controlador')
+            return "Ocurrió un error"

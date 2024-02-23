@@ -9,18 +9,18 @@ $def with(productos)
             <th scope="col" class="border_thd">Opciones</th>
         </tr>
     </thead>
-<tbody>
-    $for campo in productos:
-    <tr>
+    <tbody>
+        $for campo in productos:
+        <tr>
         <th scope="row" class="border_thd">$campo['nombre']</th>
         <td class="border_thd">$campo['descripción']</td>
-            <td class="border_thd">$campo['precio']</td>
+        <td class="border_thd">$campo['precio']</td>
             <td class="border_thd">$campo['existencias']</td>
             <td class="border_thd">
                 <span>
-                    <a href="/borrar" class="text-[#265301] outline-none no-underline pr-[1px] py-[2px] pb-[0]
+                    <a href="/detalle" class="text-[#265301] outline-none no-underline pr-[1px] py-[2px] pb-[0]
                     hover:border hover:bg-[#cdfeaa] visited:text-[#437a16] focus:border focus:bg-[#bae498]
-                    active:bg-[#265301] active:text-[#cdfeaa]">Borrar</a>
+                    active:bg-[#265301] active:text-[#cdfeaa]">Detalles</a>
                 </span>
                 <span>
                     <a href="/actualizar" class="text-[#265301] outline-none no-underline pr-[1px] py-[2px] pb-[0]
@@ -28,9 +28,9 @@ $def with(productos)
                     active:bg-[#265301] active:text-[#cdfeaa]">Actualizar</a>
                 </span>
                 <span>
-                    <a href="/detalle" class="text-[#265301] outline-none no-underline pr-[1px] py-[2px] pb-[0]
+                    <a href="/borrar" class="text-[#265301] outline-none no-underline pr-[1px] py-[2px] pb-[0]
                     hover:border hover:bg-[#cdfeaa] visited:text-[#437a16] focus:border focus:bg-[#bae498]
-                    active:bg-[#265301] active:text-[#cdfeaa]">Insertar</a>
+                    active:bg-[#265301] active:text-[#cdfeaa]">Borrar</a>
                 </span>
             </td>
         </tr>

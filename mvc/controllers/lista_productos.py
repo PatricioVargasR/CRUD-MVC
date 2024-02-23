@@ -12,4 +12,5 @@ class ListaProductos:
             print(productos)
             return render.lista_productos(productos)
         except Exception as error:
-            return f"Ocurrió un error {error} - 101 | Crontolador"
+            print(f"Ocurrió un error {error} - 101 | Crontolador")
+            return "Ocurrió un error"

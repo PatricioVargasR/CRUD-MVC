@@ -8,4 +8,5 @@ class DetalleProductos:
         try:
             return render.detalle_productos()
         except Exception as error:
-            return f'Ocurrió un error {error} - 103 | Controlador'
+            print(f'Ocurrió un error {error} - 103 | Controlador')
+            return "Ocurrió un error"
