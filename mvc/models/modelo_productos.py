@@ -37,7 +37,7 @@ class ModeloProductos:
         response = []
         try:
             self.connect()
-            self.cursor.execute('SELECT * FROM productos WHERE id_productos = ?', idProducto)
+            self.cursor.execute('SELECT * FROM productos WHERE id_productos = ?', (idProducto, ))
             for row in self.cursor:
                 product = {
                     "id_producto": row[0],
@@ -85,7 +85,7 @@ class ModeloProductos:
         result = False
         try:
             self.connect()
-            self.cursor.execute('DELETE FROM productos WHERE id_productos = ?', idProducto)
+            self.cursor.execute('DELETE FROM productos WHERE id_productos = ?', (idProducto, ))
             filas_afectadas = self.cursor.rowcount
             self.conn.commit()
             self.conn.close()
@@ -95,8 +95,30 @@ class ModeloProductos:
             print(f"Ocurrió un eror: {error} - 205 | Modelo")
         return result
 
+
+    def buscarProductos(self, nombreProducto: str) -> List[Dict[str, Union[int, float, str]]]:
+        resultado = []
+        try:
+            self.connect()
+            nombreProducto = nombreProducto.lower()
+
+            self.cursor.execute('SELECT * FROM productos WHERE LOWER(nombre) LIKE ?', ('%' + nombreProducto + '%',))
+            for row in self.cursor:
+                producto = {
+                    "id_productos": row[0],
+                    "nombre":row[1],
+                    "descripción": row[2],
+                    "precio":row[3],
+                    "existencias": row[4]
+                }
+                resultado.append(producto)
+            self.conn.close()
+        except sqlite3.Error as error:
+            print(f"Ocurrió un error: {error} - 206 | Modelo")
+        return resultado
+
     def creditos(self):
         try:
             pass
         except sqlite3.Error as error:
-            print(f"Ocurrió un error: {error} - 206 | Modelo")
+            print(f"Ocurrió un error: {error} - 207 | Modelo")
