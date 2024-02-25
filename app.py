@@ -2,7 +2,7 @@ import web
 
 urls = (
     '/', 'mvc.controllers.lista_productos.ListaProductos',
-    '/buscar', 'mvc.controllers.buscar_productos.BuscarProductos',
+    '/creditos', 'mvc.controllers.creditos.Creditos',
     '/detalle', 'mvc.controllers.detalle_productos.DetalleProductos',
     '/insertar', 'mvc.controllers.insertar_productos.InsertarProductos',
     '/actualizar', 'mvc.controllers.actualizar_productos.ActualizarProductos',

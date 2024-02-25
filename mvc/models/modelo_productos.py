@@ -32,7 +32,7 @@ class ModeloProductos:
             print(f"Ocurrió un error: {error} - 201 | Modelo")
         return response
 
-    def buscarProductos(self):
+    def creditos(self):
         try:
             pass
         except sqlite3.Error as error:
