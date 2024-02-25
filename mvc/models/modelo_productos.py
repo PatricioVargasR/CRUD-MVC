@@ -19,8 +19,8 @@ class ModeloProductos:
             self.connect()
             self.cursor.execute('SELECT * FROM productos')
             for row in self.cursor:
-                print(row[1])
                 product = {
+                    "id_productos":row[0],
                     "nombre":row[1],
                     "descripción":row[2],
                     "precio":row[3],
@@ -32,26 +32,38 @@ class ModeloProductos:
             print(f"Ocurrió un error: {error} - 201 | Modelo")
         return response
 
-    def creditos(self):
+
+    def detalleProductos(self, idProducto: str) -> List[Dict[str, Union[int, float, str]]]:
+        response = []
         try:
-            pass
+            self.connect()
+            self.cursor.execute('SELECT * FROM productos WHERE id_productos = ?', idProducto)
+            for row in self.cursor:
+                product = {
+                    "nombre":row[1],
+                    "descripción": row[2],
+                    "precio":row[3],
+                    "existencias": row[4]
+                }
+                response.append(product)
+            self.conn.close()
         except sqlite3.Error as error:
             print(f"Ocurrió un error: {error} - 202 | Modelo")
-
-    def detalleProductos(self):
+        return response
+    def insertarProductos(self):
         try:
             pass
         except sqlite3.Error as error:
             print(f"Ocurrió un error: {error} - 203 | Modelo")
 
-    def insertarProductos(self):
-        try:
-            pass
-        except sqlite3.Error as error:
-            print(f"Ocurrió un error: {error} - 204 | Modelo")
-
     def actualizarProductos(self):
         try:
             pass
         except sqlite3.Error as error:
-            print(f"Ocurrió un error {error} - 205 | Modelo")
+            print(f"Ocurrió un error {error} - 204| Modelo")
+
+    def creditos(self):
+        try:
+            pass
+        except sqlite3.Error as error:
+            print(f"Ocurrió un error: {error} - 205 | Modelo")

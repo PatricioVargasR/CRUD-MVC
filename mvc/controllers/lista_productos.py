@@ -9,7 +9,6 @@ class ListaProductos:
     def GET(self):
         try:
             productos = PRODUCTO.listaProductos()
-            print(productos)
             return render.lista_productos(productos)
         except Exception as error:
             print(f"Ocurrió un error {error} - 101 | Crontolador")
