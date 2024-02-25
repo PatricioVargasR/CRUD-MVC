@@ -58,7 +58,6 @@ class ModeloProductos:
             self.connect()
             self.cursor.execute('INSERT INTO productos (nombre, descripcion, precio, existencias) VALUES (?, ?, ?, ?)', (producto["nombre"], producto["descripcion"], float(producto["precio"]), int(producto["existencia"])))
             result = self.cursor.rowcount
-            print(result)
             if result:
                 respuesta = True
             self.conn.commit()
@@ -67,11 +66,20 @@ class ModeloProductos:
             print(f"Ocurrió un error: {error} - 203 | Modelo")
         return respuesta
 
-    def actualizarProductos(self):
+    def actualizarProductos(self, producto: Dict[str, Union[int, float, str]]) -> bool:
+        response = False
         try:
-            pass
+            self.connect()
+            print(producto)
+            self.cursor.execute("UPDATE productos SET nombre = ?, descripcion = ?, precio = ?, existencias = ? WHERE id_productos = ?", (producto["nombre"], producto["descripcion"], producto["precio"], producto["existencia"], int(producto["producto"])))
+            result = self.cursor.rowcount
+            if result:
+                response = True
+            self.conn.commit()
+            self.conn.close()
         except sqlite3.Error as error:
             print(f"Ocurrió un error {error} - 204| Modelo")
+        return response
 
     def borrarProductos(self, idProducto: str) -> bool:
         result = False

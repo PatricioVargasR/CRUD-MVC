@@ -1,41 +1,42 @@
-
+$def with (producto)
 <!-- min-h-screen  -->
-<div class="p-6  flex items-center justify-center">
-    <div class="container max-w-screen-lg mx-auto">
-      <div>
-        <h2 class="font-semibold text-xl text-gray-600">Actualizar Producto</h2>
-        <p class="text-gray-500 mb-6">Modifica los datos de producto</p>
-  
-        <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
-          <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
-            <div class="text-gray-600">
-              <p class="font-medium text-lg">Detalles del producto</p>
-              <p>Por favor llena todos los campos</p>
-            </div>
-  
-            <div class="lg:col-span-2">
-              <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
-                <div class="md:col-span-5">
+<form class="p-6  flex items-center justify-center" method="POST" action="">
+  <div class="container max-w-screen-lg mx-auto">
+    <div>
+      <h2 class="font-semibold text-xl text-gray-600">Actualizar Producto</h2>
+      <p class="text-gray-500 mb-6">Modifica los datos de producto</p>
+      
+      <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
+        <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
+          <div class="text-gray-600">
+            <p class="font-medium text-lg">Detalles del producto</p>
+            <p>Por favor llena todos los campos</p>
+          </div>
+          $for dato in producto:
+          <div class="lg:col-span-2">
+            <input value="$dato['id_producto']" type="hidden" id="producto" name="producto"></input>
+            <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
+              <div class="md:col-span-5">
                   <label for="nombre_producto">Producto</label>
-                  <input type="text" name="nombre_producto" id="nombre_producto" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value="" placeholder="Tu producto"/>
+                  <input type="text" name="nombre_producto" id="nombre_producto" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value="$dato['nombre']" placeholder="Tu producto"/>
                 </div>
   
                 <div class="md:col-span-5">
                     <label for="descripcion" class="block text-sm font-medium leading-6 text-gray-900">Descripción</label>
                     <div class="mt-2">
-                      <textarea id="descripcion" name="descripcion" rows="3" class="block w-full rounded-md border py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400  px-4 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Escribe una descripción del producto"></textarea>
+                      <textarea id="descripcion" name="descripcion" rows="3" class="block w-full rounded-md border py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400  px-4 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Escribe una descripción del producto">$dato['descripción'] </textarea>
                     </div>
                 </div>
 
 
                 <div class="md:col-span-3">
                   <label for="precio">Precio</label>
-                  <input type="number" name="precio" id="precio" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value="" placeholder="" />
+                  <input type="number" name="precio" id="precio" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value="$dato['precio']" placeholder="Precio del producto" />
                 </div>
   
                 <div class="md:col-span-2">
                   <label for="existencia">Existencia</label>
-                  <input type="number" name="existencia" id="existencia" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value="" placeholder="" />
+                  <input type="number" name="existencia" id="existencia" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value="$dato['existencias']" placeholder="Existencias del producto" />
                 </div>
                 <!--
                 <div class="md:col-span-2">
@@ -95,7 +96,7 @@
             -->
                 <div class="md:col-span-5 text-right">
                   <div class="inline-flex items-end">
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Actualizar</button>
                   </div>
                 </div>
               </div>
@@ -104,4 +105,4 @@
         </div>
       </div>
     </div>
-  </div>
+  </form>
