@@ -22,7 +22,7 @@ class BorrarProductos:
             if id_producto == form.producto:
                 result = PRODUCTO.borrarProductos(id_producto)
             if result:
-                web.seeother('/')
+                raise web.seeother('/')
         except Exception as error:
             print(f"Ocurrió un error: {error} - 106_2 | Controlador")
             return "Ocurrió un error"

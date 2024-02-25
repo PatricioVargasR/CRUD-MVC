@@ -52,11 +52,20 @@ class ModeloProductos:
             print(f"Ocurrió un error: {error} - 202 | Modelo")
         return response
 
-    def insertarProductos(self):
+    def insertarProductos(self, producto: Dict[str, Union[int, float, str]]) -> bool:
+        respuesta = False
         try:
-            pass
+            self.connect()
+            self.cursor.execute('INSERT INTO productos (nombre, descripcion, precio, existencias) VALUES (?, ?, ?, ?)', (producto["nombre"], producto["descripcion"], float(producto["precio"]), int(producto["existencia"])))
+            result = self.cursor.rowcount
+            print(result)
+            if result:
+                respuesta = True
+            self.conn.commit()
+            self.conn.close()
         except sqlite3.Error as error:
             print(f"Ocurrió un error: {error} - 203 | Modelo")
+        return respuesta
 
     def actualizarProductos(self):
         try:
