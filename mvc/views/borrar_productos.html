@@ -1,67 +1,62 @@
-
-
-<div class="w-full max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 ">
+$def with (producto)
+<form class="w-full max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 " method="POST" action="">
     <div class="flex items-center justify-between mb-4">
-        <h5 class="text-xl font-bold leading-none text-gray-900">Borrar producto</h5>
+        <h5 class="text-xl font-bold leading-none text-gray-900">Detalles del producto</h5>
    </div>
    <div class="flow-root">
+    $for dato in producto:
         <ul role="list" class="divide-y divide-gray-200">
             <li class="py-3 sm:py-4">
                 <div class="flex items-center">
-
                     <div class="flex-1 min-w-0 ms-4">
-                        <p class="text-sm font-medium text-gray-900 truncate">
+                        <input value="$dato['id_producto']" type="hidden" id="producto" name="producto"></input>
+                        <label class="text-sm font-medium text-gray-900 truncate" for="nombre">
                             Nombre del producto:
-
+                        </label>
                     </div>
-                    <div class="inline-flex items-center text-base font-semibold text-gray-900">
-                        Nombre del Producto
-                    </div>
+                    <input class="inline-flex items-center text-base font-semibold text-gray-900" value="$dato['nombre']" type="text" id="nombre" name="nombre"  readonly>
+                    </input>
                 </div>
             </li>
             <li class="py-3 sm:py-4">
                 <div class="flex items-center ">
                     <div class="flex-1 min-w-0 ms-4">
-                        <p class="text-sm font-medium text-gray-900 truncate">
+                        <label class="text-sm font-medium text-gray-900 truncate" for="descripcion">
                             Descripción:
-                        </p>
+                        </label>
                     </div>
-                    <div class="inline-flex items-center text-base font-semibold text-gray-900">
-                        Descripción del producto
-                    </div>
+                    <input class="inline-flex items-center text-base font-semibold text-gray-900" value="$dato['descripción']" type="text" id="descripcion" name="descripcion" readonly>
+                    </input>
                 </div>
             </li>
             <li class="py-3 sm:py-4">
                 <div class="flex items-center">
                     <div class="flex-1 min-w-0 ms-4">
-                        <p class="text-sm font-medium text-gray-900 truncate">
+                        <label class="text-sm font-medium text-gray-900 truncate" for="precio">
                             Precio:
-                        </p>
+                        </labeL>
                     </div>
-                    <div class="inline-flex items-center text-base font-semibold text-gray-900">
-                        $67
-                    </div>
+                    <input class="inline-flex items-center text-base font-semibold text-gray-900" value="$dato['precio']" type="number" id="precio" name="precio" readonly>
+                    </input>
                 </div>
             </li>
             <li class="py-3 sm:py-4">
                 <div class="flex items-center ">
                     <div class="flex-1 min-w-0 ms-4">
-                        <p class="text-sm font-medium text-gray-900 truncate">
+                        <label class="text-sm font-medium text-gray-900 truncate" for="existencias">
                             Existencias
-                        </p>
+                        </label>
                     </div>
-                    <div class="inline-flex items-center text-base font-semibold text-gray-900">
-                        $367
-                    </div>
+                    <input class="inline-flex items-center text-base font-semibold text-gray-900" value="$dato['existencias']" type="number" id="existencias" name="existencias" readonly>
+                    </input>
                 </div>
             </li>
             <li class="pt-3 pb-0 sm:pt-4">
-                <div class="md:col-span-5 text-right">
-                    <div class="inline-flex items-end">
-                      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Eliminar</>
-                    </div>
+                <div class="md:col-span-5 text-right flex flex-row justify-around items-center">
+                    <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Eliminar</button>
+                    <a href="/" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Cancelar</a>
                 </div>
             </li>
         </ul>
    </div>
-</div>
+</form>

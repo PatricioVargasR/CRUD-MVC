@@ -40,6 +40,7 @@ class ModeloProductos:
             self.cursor.execute('SELECT * FROM productos WHERE id_productos = ?', idProducto)
             for row in self.cursor:
                 product = {
+                    "id_producto": row[0],
                     "nombre":row[1],
                     "descripción": row[2],
                     "precio":row[3],
@@ -50,6 +51,7 @@ class ModeloProductos:
         except sqlite3.Error as error:
             print(f"Ocurrió un error: {error} - 202 | Modelo")
         return response
+
     def insertarProductos(self):
         try:
             pass
@@ -62,8 +64,22 @@ class ModeloProductos:
         except sqlite3.Error as error:
             print(f"Ocurrió un error {error} - 204| Modelo")
 
+    def borrarProductos(self, idProducto: str) -> bool:
+        result = False
+        try:
+            self.connect()
+            self.cursor.execute('DELETE FROM productos WHERE id_productos = ?', idProducto)
+            filas_afectadas = self.cursor.rowcount
+            self.conn.commit()
+            self.conn.close()
+            if filas_afectadas > 0:
+                result = True
+        except sqlite3.Error as error:
+            print(f"Ocurrió un eror: {error} - 205 | Modelo")
+        return result
+
     def creditos(self):
         try:
             pass
         except sqlite3.Error as error:
-            print(f"Ocurrió un error: {error} - 205 | Modelo")
+            print(f"Ocurrió un error: {error} - 206 | Modelo")
