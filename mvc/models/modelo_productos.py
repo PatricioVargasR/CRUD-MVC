@@ -189,9 +189,3 @@ class ModeloProductos:
         except sqlite3.Error as error:
             print(f"Ocurrió un error: {error} - 206 | Modelo")
         return resultado
-
-    def creditos(self):
-        try:
-            pass
-        except sqlite3.Error as error:
-            print(f"Ocurrió un error: {error} - 207 | Modelo")
