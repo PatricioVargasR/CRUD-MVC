@@ -18,25 +18,25 @@ $def with (producto)
             <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
               <div class="md:col-span-5">
                   <label for="nombre_producto">Producto</label>
-                  <input type="text" name="nombre_producto" id="nombre_producto" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value="$dato['nombre']" placeholder="Tu producto"/>
+                  <input type="text" name="nombre_producto" id="nombre_producto" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value="$dato['nombre']" placeholder="Tu producto" required/>
                 </div>
   
                 <div class="md:col-span-5">
                     <label for="descripcion" class="block text-sm font-medium leading-6 text-gray-900">Descripción</label>
                     <div class="mt-2">
-                      <textarea id="descripcion" name="descripcion" rows="3" class="block w-full rounded-md border py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400  px-4 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Escribe una descripción del producto">$dato['descripción'] </textarea>
+                      <textarea id="descripcion" name="descripcion" rows="3" class="block w-full rounded-md border py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400  px-4 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Escribe una descripción del producto" required>$dato['descripción'] </textarea>
                     </div>
                 </div>
 
 
                 <div class="md:col-span-3">
                   <label for="precio">Precio</label>
-                  <input type="number" name="precio" id="precio" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value="$dato['precio']" placeholder="Precio del producto" />
+                  <input type="number" name="precio" id="precio" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value="$dato['precio']" placeholder="Precio del producto" required/>
                 </div>
   
                 <div class="md:col-span-2">
                   <label for="existencia">Existencia</label>
-                  <input type="number" name="existencia" id="existencia" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value="$dato['existencias']" placeholder="Existencias del producto" />
+                  <input type="number" name="existencia" id="existencia" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value="$dato['existencias']" placeholder="Existencias del producto" required/>
                 </div>
                 <!--
                 <div class="md:col-span-2">
