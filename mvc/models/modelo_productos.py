@@ -1,7 +1,5 @@
 # Importamos los módulos correspondientes
 import sqlite3
-import base64
-from io import BytesIO
 from typing import List, Dict, Union
 
 # Clase la cuál tendrá las operaciones que deseamos realizar
@@ -122,8 +120,10 @@ class ModeloProductos:
             # Creamos una nueva conexión con la base de datos y ejecutamos la consulta para actualizar el producto
             # los datos utilizados son los almacenados en el JSON
             self.connect()
-            self.cursor.execute("UPDATE productos SET nombre = ?, descripcion = ?, imagen = ?, extension = ?,  precio = ?, existencias = ? WHERE id_productos = ?", (producto["nombre"], producto["descripcion"], producto["imagen"], producto["extension"], float(producto["precio"]), producto["existencia"], int(producto["producto"])))
             # Guardamos el cambio ocurrido en la base de datos
+            self.cursor.execute("""UPDATE productos SET nombre = ?, descripcion = ?, imagen = ?, extension = ?,  precio = ?, existencias = ?
+                                WHERE id_productos = ?""", (producto["nombre"], producto["descripcion"], producto["imagen"], producto["extension"],
+                                                            float(producto["precio"]), producto["existencia"], int(producto["producto"])))
             result = self.cursor.rowcount
             # En caso de existir algún cambio, la variable response para a ser True
             if result:
