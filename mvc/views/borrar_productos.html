@@ -9,7 +9,7 @@ $def with (producto)
             <li class="py-3 sm:py-4">
                 <div class="flex items-center">
                     <div class="flex-1 min-w-0 ms-4">
-                        <input value="$dato['id_producto']" type="hidden" id="producto" name="producto"></input>
+                        <input value="$dato['id_productos']" type="hidden" id="producto" name="producto"></input>
                         <label class="text-sm font-medium text-gray-900 truncate" for="nombre">
                             Nombre del producto:
                         </label>
@@ -51,6 +51,18 @@ $def with (producto)
                     </input>
                 </div>
             </li>
+            <li class="py-3 sm:py-4">
+                <div class="flex items-center ">
+                    <div class="flex-1 min-w-0 ms-4">
+                        <label class="text-sm font-medium text-gray-900 truncate" for="existencias">
+                            Imagen
+                        </label>
+                    </div>
+                    <img src="data:image/$dato['extension'];base64, $dato['imagen']" alt="" width="45" height="45">
+                    </input>
+                </div>
+            </li>
+            
             <li class="pt-3 pb-0 sm:pt-4">
                 <div class="md:col-span-5 text-right flex flex-row justify-around items-center">
                     <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Eliminar</button>

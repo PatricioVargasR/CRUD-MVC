@@ -1,5 +1,6 @@
 # Importamos el módulo de webpy así como el modelo para las operaciones
 import web
+import base64
 from ..models.modelo_productos import ModeloProductos
 
 # Creamos un nuevo objeto del modelo correspondiente
@@ -33,12 +34,16 @@ class InsertarProductos:
         # Intentamos el siguiente bloque de código
         try:
             # Obtenemos todas las entradas del formuarlio
-            entrada = web.input()
+            entrada = web.input(imagen = {})
+            # Obtenemos la extesión de la imagen
+            extension = entrada['imagen'].filename.split('.')
             # En caso de de hubiera una entrada guardamos cada entrada especifica en su campo correspondiente
             if entrada:
                 producto =  {
                     "nombre":entrada.nombre_producto,
                     "descripcion":entrada.descripcion,
+                    "imagen": base64.b64encode(entrada['imagen'].file.read()).decode('ascii'),
+                    "extension": extension[1],
                     "precio":entrada.precio,
                     "existencia":entrada.existencia
                 }

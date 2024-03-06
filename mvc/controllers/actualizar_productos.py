@@ -1,5 +1,6 @@
 # Importamos el módulo de webpy así como el modelo para las operaciones
 import web
+import base64
 from ..models.modelo_productos import ModeloProductos
 
 # Creamos un nuevo objeto del modelo correspondiente
@@ -20,6 +21,7 @@ class ActualizarProductos:
         try:
             # Invocamos la función detalleProductos enviando como parámetro el indentificador del producto
             producto = PRODUCTO.detalleProductos(idProducto)
+            print(producto)
             # Renderizamos la vista correspondiente utilizando el producto de respuesta como parámetro
             return render.actualizar_productos(producto)
         # En caso de ocurrir algún error, muestra un mensaje en pantalla y en la consola el error
@@ -36,7 +38,13 @@ class ActualizarProductos:
         try:
             # Obtenemos todos los valores del formulario y los guardamos en un diccionario, cada dato en su parte
             # correspondiente
-            entrada = web.input()
+            entrada = web.input(imagen = {})
+
+            # Obtenemos la extension de la imagen en caso de haberla
+            if entrada['imagen'].value:
+                extension = entrada['imagen'].filename.split('.')
+                extension = extension[1]
+
             # Verificamos que exista los datos de entrada, y que el identificador obtenido de la URL sea el mismo que del
             # formulario
             if entrada and idProducto == entrada.producto:
@@ -44,6 +52,8 @@ class ActualizarProductos:
                     "producto": entrada.producto,
                     "nombre":entrada.nombre_producto,
                     "descripcion":entrada.descripcion,
+                    "imagen": base64.b64encode(entrada['imagen'].file.read()).decode('ascii'),
+                    "extension": extension,
                     "precio":entrada.precio,
                     "existencia":entrada.existencia
                 }
@@ -54,6 +64,7 @@ class ActualizarProductos:
                 web.seeother("/")
             else:
                 return render.actualizar_productos(entrada.producto)
+
         # En caso de ocurrir algún error, muestra un mensaje en pantalla y en la consola el error
         except Exception as error:
             print(f'Ocurrió un error {error} - 105_2 | Controlador')

@@ -1,5 +1,7 @@
 # Importamos los módulos correspondientes
 import sqlite3
+import base64
+from io import BytesIO
 from typing import List, Dict, Union
 
 # Clase la cuál tendrá las operaciones que deseamos realizar
@@ -37,8 +39,10 @@ class ModeloProductos:
                     "id_productos":row[0],
                     "nombre":row[1],
                     "descripción":row[2],
-                    "precio":row[3],
-                    "existencias":row[4]
+                    "imagen": row[3],
+                    "extension": row[4],
+                    "precio":row[5],
+                    "existencias":row[6]
                     }
                 # Guardamos cada diccionario de un producto en la lista
                 response.append(product)
@@ -63,12 +67,14 @@ class ModeloProductos:
             # Iteramos sobre el cursor, el cuál almacena el resultado para crear un diccionario con el producto encontrado
             for row in self.cursor:
                 product = {
-                    "id_producto": row[0],
+                    "id_productos":row[0],
                     "nombre":row[1],
-                    "descripción": row[2],
-                    "precio":row[3],
-                    "existencias": row[4]
-                }
+                    "descripción":row[2],
+                    "imagen":row[3],
+                    "extension": row[4],
+                    "precio":row[5],
+                    "existencias":row[6]
+                    }
                 # Guardamos el diccionario del producto en la lista creada
                 response.append(product)
             self.conn.close()
@@ -89,7 +95,7 @@ class ModeloProductos:
             # Creamos una nueva conexión y ejecutamos la función para insertar un nuevo producto con los datos
             # del JSON obtenido
             self.connect()
-            self.cursor.execute('INSERT INTO productos (nombre, descripcion, precio, existencias) VALUES (?, ?, ?, ?)', (producto["nombre"], producto["descripcion"], float(producto["precio"]), int(producto["existencia"])))
+            self.cursor.execute('INSERT INTO productos (nombre, descripcion, imagen, extension, precio, existencias) VALUES (?, ?, ?, ?, ?, ?)', (producto["nombre"], producto["descripcion"], producto["imagen"], producto["extension"], float(producto["precio"]), int(producto["existencia"])))
             # Guardamos el cambio ocurrio en la base de daots
             result = self.cursor.rowcount
             # En caso de haber un cambio, la variable de respuesta pasa a ser True
@@ -116,7 +122,7 @@ class ModeloProductos:
             # Creamos una nueva conexión con la base de datos y ejecutamos la consulta para actualizar el producto
             # los datos utilizados son los almacenados en el JSON
             self.connect()
-            self.cursor.execute("UPDATE productos SET nombre = ?, descripcion = ?, precio = ?, existencias = ? WHERE id_productos = ?", (producto["nombre"], producto["descripcion"], producto["precio"], producto["existencia"], int(producto["producto"])))
+            self.cursor.execute("UPDATE productos SET nombre = ?, descripcion = ?, imagen = ?, extension = ?,  precio = ?, existencias = ? WHERE id_productos = ?", (producto["nombre"], producto["descripcion"], producto["imagen"], producto["extension"], float(producto["precio"]), producto["existencia"], int(producto["producto"])))
             # Guardamos el cambio ocurrido en la base de datos
             result = self.cursor.rowcount
             # En caso de existir algún cambio, la variable response para a ser True
@@ -176,12 +182,14 @@ class ModeloProductos:
             # en un diccionario
             for row in self.cursor:
                 producto = {
-                    "id_productos": row[0],
+                    "id_productos":row[0],
                     "nombre":row[1],
-                    "descripción": row[2],
-                    "precio":row[3],
-                    "existencias": row[4]
-                }
+                    "descripción":row[2],
+                    "imagen":row[3],
+                    "extension": row[4],
+                    "precio":row[5],
+                    "existencias":row[6]
+                    }
                 # Guardamos el diccionario dentro de una lista de la variable que inicializamos
                 resultado.append(producto)
             self.conn.close()
