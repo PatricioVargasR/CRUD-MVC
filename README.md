@@ -52,12 +52,6 @@ Finalmente, visita http://0.0.0.0:8080/ en tu navegador preferido y deberías de
 │   │   ├── detalle_productos.py
 │   │   ├── insertar_productos.py
 │   │   ├── lista_productos.py
-│   │       ├── actualizar_productos.cpython-312.pyc
-│   │       ├── borrar_productos.cpython-312.pyc
-│   │       ├── buscar_productos.cpython-312.pyc
-│   │       ├── detalle_productos.cpython-312.pyc
-│   │       ├── insertar_productos.cpython-312.pyc
-│   │       └── lista_productos.cpython-312.pyc
 │   ├── models
 │   │   ├── modelo_productos.py
 │   └── views
