@@ -31,12 +31,12 @@ $def with (producto)
 
                 <div class="md:col-span-3">
                   <label for="precio">Precio</label>
-                  <input type="number" name="precio" id="precio" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value="$dato['precio']" placeholder="Precio del producto" required/>
+                  <input type="number" name="precio" id="precio" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value="$dato['precio']" placeholder="Precio del producto" min="0" required/>
                 </div>
   
                 <div class="md:col-span-2">
                   <label for="existencia">Existencia</label>
-                  <input type="number" name="existencia" id="existencia" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value="$dato['existencias']" placeholder="Existencias del producto" required/>
+                  <input type="number" name="existencia" id="existencia" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value="$dato['existencias']" placeholder="Existencias del producto" min="0" required/>
                 </div>
                 <div class="flex flex-col w-full md:col-span-5 py-3">
                   <label for="imagen" class="py-1">Imagen</label>
