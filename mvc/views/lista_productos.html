@@ -1,4 +1,4 @@
-$def with(productos, buscado)
+$def with(productos, buscado, cantidad)
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
     <form class="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-around pb-4" method="POST" action="">
         <div class="relative">
@@ -64,7 +64,7 @@ $def with(productos, buscado)
             </tr>
         </tbody>
     </table>
-    $if not buscado:
+    $if not buscado and cantidad > 1:
         <div class="flex flex-row justify-center aling-center my-2">
             <a href="/pagina=2" class="text-[#265301] outline-none no-underline pr-[1px] py-0.5 pb-0
             hover:border hover:bg-[#cdfeaa] visited:text-[#437a16] focus:border focus:bg-[#bae498]

@@ -21,8 +21,9 @@ class ListaProductos:
             buscado = False
             # Invocamos la función listaProductos del modelo y guardamos su resultado en una variable
             productos = PRODUCTO.listaProductos()
+            cantidad = PRODUCTO.cantidadProductos()
             # Renderizamos la vista correspondiente con los productos cómo argumento
-            return render.lista_productos(productos, buscado)
+            return render.lista_productos(productos, buscado, cantidad)
         # En caso de ocurrir algún error, imprime el error en pantalla y regresa un mensaje
         except Exception as error:
             print(f"Ocurrió un error {error} - 101 | Controlador")
@@ -42,10 +43,11 @@ class ListaProductos:
             # buscarProductos enviando el nombre del producto como parámetro
             if entrada and producto_buscado:
                 respuesta, buscado = PRODUCTO.buscarProductos(producto_buscado)
+                cantidad = PRODUCTO.cantidadProductos()
             # Verificamos que exista una respuesta para renderizar la vista con los datos del producto encontrado
             # en caso de no existir un producto, regresa a la página principal
             if respuesta:
-                return render.lista_productos(respuesta, buscado)
+                return render.lista_productos(respuesta, buscado, cantidad)
             else:
                 web.seeother("/")
         # En caso de ocurrir algún error imprime el error en consola y devuelve un mensaje en pantalla

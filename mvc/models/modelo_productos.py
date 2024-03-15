@@ -191,7 +191,8 @@ class ModeloProductos:
                     "imagen":row[3],
                     "extension": row[4],
                     "precio":row[5],
-                    "existencias":row[6]
+                    "existencias":row[6],
+                    "hash": row[7]
                     }
                 # Guardamos el diccionario dentro de una lista de la variable que inicializamos
                 resultado.append(producto)

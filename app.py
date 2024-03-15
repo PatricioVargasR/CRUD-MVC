@@ -1,6 +1,8 @@
 # Importamos el módulo correspondinete
 import web
 
+# TODO: Verificar validaciones
+
 # Definimos las URLS y Controlaadores de nuestra paǵina
 urls = (
     '/', 'mvc.controllers.lista_productos.ListaProductos',
