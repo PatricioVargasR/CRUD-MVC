@@ -34,12 +34,14 @@ class BorrarProductos:
         """
         # Intentamos el siguiente bloque de código
         try:
+            # Obtenemos el identificador y el hash
+            hash, identificador = id_producto.split("!")
             # Obtenemos todas las entradas del formulario
             form = web.input()
             # Verificamos que el identificador obtenido del formulario y de la URL sea el mismo, en caso de ser así
             # invocamos la función borrarProductos con el identificador del producto como párametro
-            if id_producto == form.producto:
-                result = PRODUCTO.borrarProductos(id_producto)
+            if identificador == form.producto:
+                result = PRODUCTO.borrarProductos(identificador, hash)
             # Verificamos que exista un resultado para devolverlo a la página principal
             if result:
                 web.seeother('/')

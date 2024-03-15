@@ -40,7 +40,8 @@ class ModeloProductos:
                     "imagen": row[3],
                     "extension": row[4],
                     "precio":row[5],
-                    "existencias":row[6]
+                    "existencias":row[6],
+                    "hash": row[7]
                     }
                 # Guardamos cada diccionario de un producto en la lista
                 response.append(product)
@@ -61,7 +62,7 @@ class ModeloProductos:
         try:
             # Creamos la conexión con la base de datosy realizamos la consulta para obtener el producto correspondiente
             self.connect()
-            self.cursor.execute('SELECT * FROM productos WHERE id_productos = ?', (idProducto, ))
+            self.cursor.execute('SELECT * FROM productos WHERE hash = ? AND id_productos = ?', (idProducto.split('!')))
             # Iteramos sobre el cursor, el cuál almacena el resultado para crear un diccionario con el producto encontrado
             for row in self.cursor:
                 product = {
@@ -122,8 +123,8 @@ class ModeloProductos:
             self.connect()
             # Guardamos el cambio ocurrido en la base de datos
             self.cursor.execute("""UPDATE productos SET nombre = ?, descripcion = ?, imagen = ?, extension = ?,  precio = ?, existencias = ?, hash = ?
-                                WHERE id_productos = ?""", (producto["nombre"], producto["descripcion"], producto["imagen"], producto["extension"],
-                                                            float(producto["precio"]), int(producto["existencia"]), producto["hash"], int(producto["producto"])))
+                                WHERE id_productos = ? AND hash = ?""", (producto["nombre"], producto["descripcion"], producto["imagen"], producto["extension"],
+                                                            float(producto["precio"]), int(producto["existencia"]), producto["hash"], int(producto["producto"]), producto['antiguo_hash']))
             result = self.cursor.rowcount
             # En caso de existir algún cambio, la variable response para a ser True
             if result:
@@ -136,7 +137,7 @@ class ModeloProductos:
             print(f"Ocurrió un error {error} - 204| Modelo")
         return response
 
-    def borrarProductos(self, idProducto: str) -> bool:
+    def borrarProductos(self, idProducto: str, hash: str) -> bool:
         """
             Función que se encarga de borrar un producto de la base de datos, recibe el identificador del producto
             a eliminar y devuelve un booleano
@@ -148,7 +149,7 @@ class ModeloProductos:
             # Creamos una nueva conexión y ejecutamos la consulta correspondiente para eliminar un producto en base al id
             # que obtiene la respuesta
             self.connect()
-            self.cursor.execute('DELETE FROM productos WHERE id_productos = ?', (idProducto, ))
+            self.cursor.execute('DELETE FROM productos WHERE id_productos = ? AND hash = ?', (idProducto, hash))
             # Guardamos los cambios realizamos en la base de datos
             filas_afectadas = self.cursor.rowcount
             # Guardamos las cambios realizamos en la base de datos y cerramos la conexión

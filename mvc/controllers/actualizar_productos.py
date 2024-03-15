@@ -48,17 +48,18 @@ class ActualizarProductos:
                 extension = entrada['imagen'].filename.split('.')
                 extension = extension[1]
 
+            # Obtenemos el identificador y el hash de la URL
+            antiguo_hash, identificador = idProducto.split('!')
+
+            # Generamos la cadena a hashear:
+            cadena = f"{entrada.nombre_producto}{entrada.descripcion}"
+            # Actualizamos el objeto hash con los strings
+            hash_md5.update(cadena.encode('utf-8'))
+            # Obtenemos el hash md5 como string hexadecimal
+            hash = hash_md5.hexdigest()
             # Verificamos que exista los datos de entrada, y que el identificador obtenido de la URL sea el mismo que del
             # formulario
-            if entrada and idProducto == entrada.producto:
-
-                # Generamos la cadena a hashear:
-                cadena = f"{entrada.nombre_producto}{entrada.descripcion}"
-                # Actualizamos el objeto hash con los strings
-                hash_md5.update(cadena.encode('utf-8'))
-                # Obtenemos el hash md5 como string hexadecimal
-                hash = hash_md5.hexdigest()
-
+            if entrada and entrada.producto == identificador:
                 producto =  {
                     "producto": entrada.producto,
                     "nombre":entrada.nombre_producto,
@@ -67,6 +68,7 @@ class ActualizarProductos:
                     "extension": extension,
                     "precio":entrada.precio,
                     "existencia":entrada.existencia,
+                    "antiguo_hash": antiguo_hash,
                     "hash": hash
                 }
                 # Invocamos la función para actualizarProductos enviando al diccionario como parámetro

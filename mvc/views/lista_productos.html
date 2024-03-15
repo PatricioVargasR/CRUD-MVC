@@ -51,13 +51,13 @@ $def with(productos, buscado)
                     <img src="data:image/$campo['extension'];base64, $campo['imagen']" alt="" width="45" height="45">
                 </td>
                 <td class="px-6 py-4">
-                    <a href="/detalle/$campo['id_productos']" class="text-[#265301] outline-none no-underline pr-[1px] py-0.5 pb-0
+                    <a href="/detalle/$campo['hash']!$campo['id_productos']" class="text-[#265301] outline-none no-underline pr-[1px] py-0.5 pb-0
                     hover:border hover:bg-[#cdfeaa] visited:text-[#437a16] focus:border focus:bg-[#bae498]
                     active:bg-[#265301] active:text-[#cdfeaa]">Detalles</a>
-                    <a href="/actualizar/$campo['id_productos']" class="text-[#265301] outline-none no-underline pr-[1px] py-0.5 pb-0
+                    <a href="/actualizar/$campo['hash']!$campo['id_productos']" class="text-[#265301] outline-none no-underline pr-[1px] py-0.5 pb-0
                     hover:border hover:bg-[#cdfeaa] visited:text-[#437a16] focus:border focus:bg-[#bae498]
                     active:bg-[#265301] active:text-[#cdfeaa]">Actualizar</a>
-                    <a href="/borrar/$campo['id_productos']" class="text-[#265301] outline-none no-underline pr-[1px] py-0.5 pb-0
+                    <a href="/borrar/$campo['hash']!$campo['id_productos']" class="text-[#265301] outline-none no-underline pr-[1px] py-0.5 pb-0
                     hover:border hover:bg-[#cdfeaa] visited:text-[#437a16] focus:border focus:bg-[#bae498]
                     active:bg-[#265301] active:text-[#cdfeaa]">Borrar</a>
                 </td>
