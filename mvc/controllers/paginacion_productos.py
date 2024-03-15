@@ -56,16 +56,15 @@ class PaginacionProductos:
         try:
             # Obtenemos todas las entradas del formulario y almacenamos el datos "nombre" dentro de una variable
             entrada = web.input()
-            print('Entrada', entrada)
             producto_buscado = entrada.nombre
             # Verificamos la existencia de datos y del producto correspondiente para luego invocar la función
             # buscarProductos enviando el nombre del producto como parámetro
             if entrada and producto_buscado:
-                respuesta = PRODUCTO.buscarProductos(producto_buscado)
+                respuesta, busqueda = PRODUCTO.buscarProductos(producto_buscado)
             # Verificamos que exista una respuesta para renderizar la vista con los datos del producto encontrado
             # en caso de no existir un producto, regresa a la página principal
             if respuesta:
-                return render.lista_productos(respuesta)
+                return render.lista_productos(respuesta, busqueda)
             else:
                 web.seeother("/")
         # En caso de ocurrir algún error imprime el error en consola y devuelve un mensaje en pantalla
