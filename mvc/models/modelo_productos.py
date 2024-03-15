@@ -1,6 +1,6 @@
 # Importamos los módulos correspondientes
 import sqlite3
-from typing import List, Dict, Union
+from typing import List, Dict, Union, Tuple
 
 # Clase la cuál tendrá las operaciones que deseamos realizar
 class ModeloProductos:
@@ -30,7 +30,7 @@ class ModeloProductos:
         try:
             # Creamos la conexión y ejecutamos la sentencia SQL correspondiete
             self.connect()
-            self.cursor.execute('SELECT * FROM productos')
+            self.cursor.execute('SELECT * FROM productos ORDER BY id_productos DESC LIMIT 1')
             # Iteramos sobre el cursor, el cuál almacena el resultado para crear un diccionario de cada producto
             for row in self.cursor:
                 product = {
@@ -163,7 +163,7 @@ class ModeloProductos:
         return result
 
 
-    def buscarProductos(self, nombreProducto: str) -> List[Dict[str, Union[int, float, str]]]:
+    def buscarProductos(self, nombreProducto: str) -> Tuple[List[Dict[str, Union[int, float, str]]], bool]:
         """
             Función que se encarga de buscar un producto en base a su nombre, esta función no es sensible a mayúsculas
             ni a minúsculas, solamente al ordén y los espacios, recibe el nombre y devuelve el producto encontrado en un
@@ -171,6 +171,8 @@ class ModeloProductos:
         """
         # Inicializamos la variable para el resultado
         resultado = []
+        # Inicializamos la variable buscado
+        buscado = False
         # Intentamos el siguiente bloque de código
         try:
             # Creamos una nueva conexión y volvemos a minúsculas el nombre ingresado
@@ -192,8 +194,59 @@ class ModeloProductos:
                     }
                 # Guardamos el diccionario dentro de una lista de la variable que inicializamos
                 resultado.append(producto)
+            if len(resultado) > 0:
+                buscado = True
             self.conn.close()
         # En caso de ocurrir algún error, imprime en consola el error y devuelve el resultado
         except sqlite3.Error as error:
             print(f"Ocurrió un error: {error} - 206 | Modelo")
+        return (resultado, buscado)
+
+    def paginacionProductos(self, por_pagina: int, offset: int) -> List[Dict[str, Union[int, float, str]]]:
+        """
+            Función que se encarga de obtener los productos de la base de datos mediante los elementos por página y
+            los elementos que se omiten, es decir, una manera de paginación. Esta función devolverá un array con los
+            productos correspondientes a la página.
+        """
+        resultado = []
+        try:
+            # Creamos una nueva conexión y hacemos una consulta que delimita la cantidad de productos devuelvos y
+            # los productos que se omiten
+            self.connect()
+            self.cursor.execute('SELECT * FROM productos ORDER BY id_productos DESC LIMIT ? OFFSET ?', (por_pagina, offset))
+            # Iteramos sobre el cursor que almacena el resultado de la consulta anterior y lo convertimos a un JSON
+            for row in self.cursor:
+                product = {
+                    "id_productos":row[0],
+                    "nombre":row[1],
+                    "descripción":row[2],
+                    "imagen": row[3],
+                    "extension": row[4],
+                    "precio":row[5],
+                    "existencias":row[6]
+                    }
+                # Guardamos los productos obtenidos en una lista y cerramos la conexión
+                resultado.append(product)
+            self.conn.close()
+        except sqlite3.Error as error:
+            print(f"Ocurrió un error: {error} - 207 | Modelo ")
         return resultado
+
+    def cantidadProductos(self) -> int:
+        """
+            Función que se encarga de devolver la cantidad de productos actuales almacenados en la base de datos, devuelve
+            la cantidad exclusivamente.
+        """
+        cantidad_productos = 0
+        try:
+            # Iniciamos una nueva colección y realizamos una consulta para obtener la cantidad de productos
+            self.connect()
+            self.cursor.execute('SELECT COUNT(*) as cantidad FROM productos')
+            # Iteramos sobre el cursor que almacena el resultado de la consulta
+            for row in self.cursor:
+                cantidad = row[0]
+            cantidad_productos = cantidad
+            self.conn.close()
+        except sqlite3.Error as error:
+            print(f"Ocurrió un error: {error} - 208 | Modelo ")
+        return cantidad_productos

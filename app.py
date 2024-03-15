@@ -4,7 +4,7 @@ import web
 # Definimos las URLS y Controlaadores de nuestra paǵina
 urls = (
     '/', 'mvc.controllers.lista_productos.ListaProductos',
-    '/creditos', 'mvc.controllers.creditos.Creditos',
+    '/pagina=(.*)', 'mvc.controllers.paginacion_productos.PaginacionProductos',
     '/detalle/(.*)', 'mvc.controllers.detalle_productos.DetalleProductos',
     '/insertar', 'mvc.controllers.insertar_productos.InsertarProductos',
     '/actualizar/(.*)', 'mvc.controllers.actualizar_productos.ActualizarProductos',
