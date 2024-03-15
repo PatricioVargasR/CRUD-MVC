@@ -226,7 +226,8 @@ class ModeloProductos:
                     "imagen": row[3],
                     "extension": row[4],
                     "precio":row[5],
-                    "existencias":row[6]
+                    "existencias":row[6],
+                    "hash": row[7]
                     }
                 # Guardamos los productos obtenidos en una lista y cerramos la conexión
                 resultado.append(product)

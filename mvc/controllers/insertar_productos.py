@@ -10,6 +10,8 @@ PRODUCTO = ModeloProductos()
 # Creamos un objeto Hash MD5
 hash_md5 = hashlib.md5()
 
+# Guardamos el tamaño máximo de la imagen
+tamaño_maximo = 1048576
 # Variable que almacena la ubicación de las vistas, con el argumento base es envuelto por una "plantilla"
 render = web.template.render('mvc/views/', base='layout')
 
@@ -41,8 +43,11 @@ class InsertarProductos:
             entrada = web.input(imagen = {})
             # Obtenemos la extesión de la imagen
             extension = entrada['imagen'].filename.split('.')
+            # Obtenemos el tamaño de la imagen
+            tamaño = len(entrada['imagen'].value)
+
             # En caso de de hubiera una entrada guardamos cada entrada especifica en su campo correspondiente
-            if entrada:
+            if entrada and tamaño <= tamaño_maximo:
                 # Generamos la cadena a hashear:
                 cadena = f"{entrada.nombre_producto}{entrada.descripcion}"
                 # Actualizamos el objeto hash con los strings
@@ -60,6 +65,8 @@ class InsertarProductos:
                 }
                 # Invocamos la función insertarProductos la cuál recibe como parámetro el diccionario del producto
                 resultado = PRODUCTO.insertarProductos(producto)
+            else:
+                return render.error()
             # En caso de haber un resultado, se redirecciona a la pantalla principal
             if resultado:
                 web.seeother("/")

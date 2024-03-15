@@ -10,6 +10,9 @@ PRODUCTO = ModeloProductos()
 # Creamos un objeto Hash MD5
 hash_md5 = hashlib.md5()
 
+# Guardamos el tamaño máximo de una imagen
+tamaño_maximo = 1048576
+
 # Variable que almacena la ubicación de las vistas, con el argumento base es envuelto por una "plantilla"
 render = web.template.render('mvc/views/', base='layout')
 
@@ -43,6 +46,9 @@ class ActualizarProductos:
             # correspondiente
             entrada = web.input(imagen = {})
 
+            tamaño = len(entrada['imagen'].value)
+            print(tamaño)
+
             # Obtenemos la extension de la imagen en caso de haberla
             if entrada['imagen'].value:
                 extension = entrada['imagen'].filename.split('.')
@@ -59,7 +65,7 @@ class ActualizarProductos:
             hash = hash_md5.hexdigest()
             # Verificamos que exista los datos de entrada, y que el identificador obtenido de la URL sea el mismo que del
             # formulario
-            if entrada and entrada.producto == identificador:
+            if entrada and entrada.producto == identificador and tamaño <= tamaño_maximo:
                 producto =  {
                     "producto": entrada.producto,
                     "nombre":entrada.nombre_producto,
