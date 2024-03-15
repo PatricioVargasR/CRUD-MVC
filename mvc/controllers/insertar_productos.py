@@ -1,10 +1,14 @@
 # Importamos el módulo de webpy así como el modelo para las operaciones
 import web
 import base64
+import hashlib
 from ..models.modelo_productos import ModeloProductos
 
 # Creamos un nuevo objeto del modelo correspondiente
 PRODUCTO = ModeloProductos()
+
+# Creamos un objeto Hash MD5
+hash_md5 = hashlib.md5()
 
 # Variable que almacena la ubicación de las vistas, con el argumento base es envuelto por una "plantilla"
 render = web.template.render('mvc/views/', base='layout')
@@ -39,13 +43,20 @@ class InsertarProductos:
             extension = entrada['imagen'].filename.split('.')
             # En caso de de hubiera una entrada guardamos cada entrada especifica en su campo correspondiente
             if entrada:
+                # Generamos la cadena a hashear:
+                cadena = f"{entrada.nombre_producto}{entrada.descripcion}"
+                # Actualizamos el objeto hash con los strings
+                hash_md5.update(cadena.encode('utf-8'))
+                # Obtenemos el hash md5 como string hexadecimal
+                hash = hash_md5.hexdigest()
                 producto =  {
                     "nombre":entrada.nombre_producto,
                     "descripcion":entrada.descripcion,
                     "imagen": base64.b64encode(entrada['imagen'].file.read()).decode('ascii'),
                     "extension": extension[1],
                     "precio":entrada.precio,
-                    "existencia":entrada.existencia
+                    "existencia":entrada.existencia,
+                    "hash": hash
                 }
                 # Invocamos la función insertarProductos la cuál recibe como parámetro el diccionario del producto
                 resultado = PRODUCTO.insertarProductos(producto)

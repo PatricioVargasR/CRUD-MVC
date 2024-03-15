@@ -93,7 +93,7 @@ class ModeloProductos:
             # Creamos una nueva conexión y ejecutamos la función para insertar un nuevo producto con los datos
             # del JSON obtenido
             self.connect()
-            self.cursor.execute('INSERT INTO productos (nombre, descripcion, imagen, extension, precio, existencias) VALUES (?, ?, ?, ?, ?, ?)', (producto["nombre"], producto["descripcion"], producto["imagen"], producto["extension"], float(producto["precio"]), int(producto["existencia"])))
+            self.cursor.execute('INSERT INTO productos (nombre, descripcion, imagen, extension, precio, existencias, hash) VALUES (?, ?, ?, ?, ?, ?, ?)', (producto["nombre"], producto["descripcion"], producto["imagen"], producto["extension"], float(producto["precio"]), int(producto["existencia"]), producto['hash']))
             # Guardamos el cambio ocurrio en la base de daots
             result = self.cursor.rowcount
             # En caso de haber un cambio, la variable de respuesta pasa a ser True
@@ -121,9 +121,9 @@ class ModeloProductos:
             # los datos utilizados son los almacenados en el JSON
             self.connect()
             # Guardamos el cambio ocurrido en la base de datos
-            self.cursor.execute("""UPDATE productos SET nombre = ?, descripcion = ?, imagen = ?, extension = ?,  precio = ?, existencias = ?
+            self.cursor.execute("""UPDATE productos SET nombre = ?, descripcion = ?, imagen = ?, extension = ?,  precio = ?, existencias = ?, hash = ?
                                 WHERE id_productos = ?""", (producto["nombre"], producto["descripcion"], producto["imagen"], producto["extension"],
-                                                            float(producto["precio"]), producto["existencia"], int(producto["producto"])))
+                                                            float(producto["precio"]), int(producto["existencia"]), producto["hash"], int(producto["producto"])))
             result = self.cursor.rowcount
             # En caso de existir algún cambio, la variable response para a ser True
             if result:
@@ -208,7 +208,9 @@ class ModeloProductos:
             los elementos que se omiten, es decir, una manera de paginación. Esta función devolverá un array con los
             productos correspondientes a la página.
         """
+        # Inicializamos la variable que almacena el resultado
         resultado = []
+        # Intentamos el siguiente bloque de código
         try:
             # Creamos una nueva conexión y hacemos una consulta que delimita la cantidad de productos devuelvos y
             # los productos que se omiten
@@ -228,6 +230,7 @@ class ModeloProductos:
                 # Guardamos los productos obtenidos en una lista y cerramos la conexión
                 resultado.append(product)
             self.conn.close()
+        # En caso de haber algún error, imprime en la consola el error
         except sqlite3.Error as error:
             print(f"Ocurrió un error: {error} - 207 | Modelo ")
         return resultado
@@ -237,7 +240,9 @@ class ModeloProductos:
             Función que se encarga de devolver la cantidad de productos actuales almacenados en la base de datos, devuelve
             la cantidad exclusivamente.
         """
+        # Inicializamos de la cantidad
         cantidad_productos = 0
+        # Intentamos el siguiente bloque de código
         try:
             # Iniciamos una nueva colección y realizamos una consulta para obtener la cantidad de productos
             self.connect()
@@ -245,8 +250,10 @@ class ModeloProductos:
             # Iteramos sobre el cursor que almacena el resultado de la consulta
             for row in self.cursor:
                 cantidad = row[0]
+            # Guardamos la nueva cantidad de productos y cerramos la conexión
             cantidad_productos = cantidad
             self.conn.close()
+        # En caso de haber algún error, imprime en la consola el error
         except sqlite3.Error as error:
             print(f"Ocurrió un error: {error} - 208 | Modelo ")
         return cantidad_productos

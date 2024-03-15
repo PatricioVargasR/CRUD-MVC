@@ -38,7 +38,7 @@ class PaginacionProductos:
 
             # Verificamos la cantidad de páginas
             if pagina > paginas:
-                raise web.seeother("/")
+                web.seeother("/")
             else:
                 # Renderizamos la vista correspondiente con los productos cómo argumento
                 return render.paginacion_productos(productos, pagina, int(paginas))

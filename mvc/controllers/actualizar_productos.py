@@ -1,10 +1,14 @@
 # Importamos el módulo de webpy así como el modelo para las operaciones
 import web
 import base64
+import hashlib
 from ..models.modelo_productos import ModeloProductos
 
 # Creamos un nuevo objeto del modelo correspondiente
 PRODUCTO = ModeloProductos()
+
+# Creamos un objeto Hash MD5
+hash_md5 = hashlib.md5()
 
 # Variable que almacena la ubicación de las vistas, con el argumento base es envuelto por una "plantilla"
 render = web.template.render('mvc/views/', base='layout')
@@ -21,7 +25,6 @@ class ActualizarProductos:
         try:
             # Invocamos la función detalleProductos enviando como parámetro el indentificador del producto
             producto = PRODUCTO.detalleProductos(idProducto)
-            print(producto)
             # Renderizamos la vista correspondiente utilizando el producto de respuesta como parámetro
             return render.actualizar_productos(producto)
         # En caso de ocurrir algún error, muestra un mensaje en pantalla y en la consola el error
@@ -48,6 +51,14 @@ class ActualizarProductos:
             # Verificamos que exista los datos de entrada, y que el identificador obtenido de la URL sea el mismo que del
             # formulario
             if entrada and idProducto == entrada.producto:
+
+                # Generamos la cadena a hashear:
+                cadena = f"{entrada.nombre_producto}{entrada.descripcion}"
+                # Actualizamos el objeto hash con los strings
+                hash_md5.update(cadena.encode('utf-8'))
+                # Obtenemos el hash md5 como string hexadecimal
+                hash = hash_md5.hexdigest()
+
                 producto =  {
                     "producto": entrada.producto,
                     "nombre":entrada.nombre_producto,
@@ -55,7 +66,8 @@ class ActualizarProductos:
                     "imagen": base64.b64encode(entrada['imagen'].file.read()).decode('ascii'),
                     "extension": extension,
                     "precio":entrada.precio,
-                    "existencia":entrada.existencia
+                    "existencia":entrada.existencia,
+                    "hash": hash
                 }
                 # Invocamos la función para actualizarProductos enviando al diccionario como parámetro
                 resultado = PRODUCTO.actualizarProductos(producto)
