@@ -27,7 +27,7 @@ class ListaProductos:
         # En caso de ocurrir algún error, imprime el error en pantalla y regresa un mensaje
         except Exception as error:
             print(f"Ocurrió un error {error} - 101 | Controlador")
-            return "Ocurrió un error"
+            return render.error('No se logró cargar correctamente la vista', '/')
 
     def POST(self):
         """
@@ -53,4 +53,4 @@ class ListaProductos:
         # En caso de ocurrir algún error imprime el error en consola y devuelve un mensaje en pantalla
         except Exception as error:
             print(f"Ocurrió un error {error} - 101_2 | Controlador")
-            return "Ocurrió un error"
+            return render.error('No se pudo buscar correctamente el producto', '/')

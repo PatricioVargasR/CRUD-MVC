@@ -45,7 +45,7 @@ class PaginacionProductos:
         # En caso de ocurrir algún error, imprime el error en pantalla y regresa un mensaje
         except Exception as error:
             print(f"Ocurrió un error {error} - 106 | Controlador")
-            return "Ocurrió un error"
+            return render.error('No se logró cargar la página correspondiente', '/')
 
     def POST(self, pagina=2):
         """
@@ -70,4 +70,4 @@ class PaginacionProductos:
         # En caso de ocurrir algún error imprime el error en consola y devuelve un mensaje en pantalla
         except Exception as error:
             print(f"Ocurrió un error {error} - 106_2 | Controlador")
-            return "Ocurrió un error"
+            return render.error('No se pudo buscar correctamente el producto', '/')

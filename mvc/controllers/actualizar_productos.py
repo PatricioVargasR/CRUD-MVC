@@ -28,12 +28,15 @@ class ActualizarProductos:
         try:
             # Invocamos la función detalleProductos enviando como parámetro el indentificador del producto
             producto = PRODUCTO.detalleProductos(idProducto)
+            # Verificamos que exista el producto
+            if not producto:
+                return render.error_404()
             # Renderizamos la vista correspondiente utilizando el producto de respuesta como parámetro
             return render.actualizar_productos(producto)
         # En caso de ocurrir algún error, muestra un mensaje en pantalla y en la consola el error
         except Exception as error:
             print(f'Ocurrió un error {error} - 105 | Controlador')
-            return "Ocurrió un error"
+            return render.error('No se logró cargar la vista', '/')
 
     def POST(self, idProducto):
         """
@@ -46,11 +49,21 @@ class ActualizarProductos:
             # correspondiente
             entrada = web.input(imagen = {})
 
-            tamaño = len(entrada['imagen'].value)
-            print(tamaño)
+            # Validamos en caso de no haber datos ingresados
+            if not entrada['precio'] or not entrada['nombre_producto'] or not entrada['existencia'] or not entrada['descripcion']:
+                return render.error('No completó todos los campos', f'/actualizar/{idProducto}')
 
-            # Obtenemos la extension de la imagen en caso de haberla
-            if entrada['imagen'].value:
+            # Validamos las existencias y el precio
+            if float(entrada.precio) <= 0 or int(entrada.existencia) < 0:
+                return render.error('No se permiten precios nulos o existencias menores que cero', f'/actualizar/{idProducto}')
+
+            # Validamos en caso de  haber imagen de la imagen
+            if len(entrada['imagen'].value) > 0:
+                tamaño = len(entrada['imagen'].value)
+                # Validamos el tamaño de la imagen
+                if tamaño >= tamaño_maximo:
+                    return render.error('El tamaño de la imagen excede lo permitido', f'/actualizar/{idProducto}')
+
                 extension = entrada['imagen'].filename.split('.')
                 extension = extension[1]
 
@@ -65,20 +78,34 @@ class ActualizarProductos:
             hash = hash_md5.hexdigest()
             # Verificamos que exista los datos de entrada, y que el identificador obtenido de la URL sea el mismo que del
             # formulario
-            if entrada and entrada.producto == identificador and tamaño <= tamaño_maximo:
-                producto =  {
-                    "producto": entrada.producto,
-                    "nombre":entrada.nombre_producto,
-                    "descripcion":entrada.descripcion,
-                    "imagen": base64.b64encode(entrada['imagen'].file.read()).decode('ascii'),
-                    "extension": extension,
-                    "precio":entrada.precio,
-                    "existencia":entrada.existencia,
-                    "antiguo_hash": antiguo_hash,
-                    "hash": hash
-                }
+            if entrada.producto == identificador:
+                if len(entrada['imagen'].value) > 0:
+                    producto =  {
+                        "producto": entrada.producto,
+                        "nombre":entrada.nombre_producto,
+                        "descripcion":entrada.descripcion,
+                        "imagen": base64.b64encode(entrada['imagen'].file.read()).decode('ascii'),
+                        "extension": extension,
+                        "precio":entrada.precio,
+                        "existencia":entrada.existencia,
+                        "antiguo_hash": antiguo_hash,
+                        "hash": hash
+                    }
+                else:
+                    producto =  {
+                        "producto": entrada.producto,
+                        "nombre":entrada.nombre_producto,
+                        "descripcion":entrada.descripcion,
+                        "imagen": '',
+                        "extension": '',
+                        "precio":entrada.precio,
+                        "existencia":entrada.existencia,
+                        "antiguo_hash": antiguo_hash,
+                        "hash": hash
+                    }
                 # Invocamos la función para actualizarProductos enviando al diccionario como parámetro
                 resultado = PRODUCTO.actualizarProductos(producto)
+
             # Verificamos que exista un resultado paara redireccionar a la página principal
             if resultado:
                 web.seeother("/")
@@ -88,4 +115,4 @@ class ActualizarProductos:
         # En caso de ocurrir algún error, muestra un mensaje en pantalla y en la consola el error
         except Exception as error:
             print(f'Ocurrió un error {error} - 105_2 | Controlador')
-            return "Oucrrió un error"
+            return render.error('Ocurrió un error al actualizar el producto', '/')

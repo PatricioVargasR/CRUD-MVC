@@ -20,12 +20,15 @@ class BorrarProductos:
         try:
             # Invocamos la función detalleProductos enviando el identificador del producto como parámetro
             producto = PRODUCTO.detalleProductos(idProducto)
+            # Validamos que exista un producto
+            if not producto:
+                return render.error_404()
             # Renderizamos la vista borrar_productos enviando al resultado como parámetro
             return render.borrar_productos(producto)
         # En caso de ocurrir algún error, muestra el error en consola y muestra un mensaje en pantalla
         except Exception as error:
             print(f'Ocurrió un error: {error} - 106 | Controlador')
-            return "Ocurrió un error"
+            return render.error('Ocurrió un error al cargar la vista', '/')
 
     def POST(self, id_producto):
         """
@@ -42,6 +45,8 @@ class BorrarProductos:
             # invocamos la función borrarProductos con el identificador del producto como párametro
             if identificador == form.producto:
                 result = PRODUCTO.borrarProductos(identificador, hash)
+            else:
+                return render.error('Los identificadores no concuerdan', f'/borrar/{id_producto}')
             # Verificamos que exista un resultado para devolverlo a la página principal
             if result:
                 web.seeother('/')
@@ -50,4 +55,4 @@ class BorrarProductos:
         # En caso de ocurrir algún error, muestra el error en consola y muestra un mensaje en pantalla
         except Exception as error:
             print(f"Ocurrió un error: {error} - 106_2 | Controlador")
-            return "Ocurrió un error"
+            return render.error('No se pudo eliminar el producto', '/')

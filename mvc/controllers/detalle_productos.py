@@ -20,9 +20,12 @@ class DetalleProductos:
         try:
             # Invocamos la función detalleProductos enviando el identificador del producto como parámetro
             producto = PRODUCTO.detalleProductos(idProductos)
+            # Validamos que exista un producto
+            if not producto:
+                return render.error_404()
             # Renderizamos la vista correspondiente enviando el resultado como parámetro
             return render.detalle_productos(producto)
         # En caso de que ocurriera algún error, imprime en consolta el error y muestra un mensaje en la pantalla
         except Exception as error:
             print(f'Ocurrió un error {error} - 103 | Controlador')
-            return 'Ocurrió un error'
+            return render.error('No se logró cargar la vista', '/')

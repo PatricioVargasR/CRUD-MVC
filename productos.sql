@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS productos (
     descripcion TEXT NOT NULL,
     imagen BLOB NOT NULL,
     extension VARCHAR(10) NOT NULL,
-    precio REAL NOT NULL NOT NULL CHECK (existencias >= 0),
-    existencias INTEGER NOT NULL CHECK (existencias >= 0),
+    precio REAL NOT NULL,
+    existencias INTEGER NOT NULL,
     hash TEXT NOT NULL
 );

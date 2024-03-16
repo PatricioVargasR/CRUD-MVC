@@ -70,4 +70,8 @@ $def with(productos, buscado, cantidad)
             hover:border hover:bg-[#cdfeaa] visited:text-[#437a16] focus:border focus:bg-[#bae498]
             active:bg-[#265301] active:text-[#cdfeaa] font-2xl">Siguiente</a>
         </div>
+    $if cantidad <= 0:
+        <div class="flex flex-row justify-center aling-center my-2">
+            No hay productos
+        </div>
 </div>

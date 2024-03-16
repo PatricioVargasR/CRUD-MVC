@@ -62,7 +62,8 @@ class ModeloProductos:
         try:
             # Creamos la conexión con la base de datosy realizamos la consulta para obtener el producto correspondiente
             self.connect()
-            self.cursor.execute('SELECT * FROM productos WHERE hash = ? AND id_productos = ?', (idProducto.split('!')))
+            hash, id_productos = idProducto.split('!')
+            self.cursor.execute('SELECT * FROM productos WHERE hash = ? AND id_productos = ?', (hash, id_productos))
             # Iteramos sobre el cursor, el cuál almacena el resultado para crear un diccionario con el producto encontrado
             for row in self.cursor:
                 product = {
@@ -121,10 +122,17 @@ class ModeloProductos:
             # Creamos una nueva conexión con la base de datos y ejecutamos la consulta para actualizar el producto
             # los datos utilizados son los almacenados en el JSON
             self.connect()
-            # Guardamos el cambio ocurrido en la base de datos
-            self.cursor.execute("""UPDATE productos SET nombre = ?, descripcion = ?, imagen = ?, extension = ?,  precio = ?, existencias = ?, hash = ?
-                                WHERE id_productos = ? AND hash = ?""", (producto["nombre"], producto["descripcion"], producto["imagen"], producto["extension"],
-                                                            float(producto["precio"]), int(producto["existencia"]), producto["hash"], int(producto["producto"]), producto['antiguo_hash']))
+            # Verificamos que la imagen y el producto existan en el JSON de actualizar
+            if producto['imagen'] and producto['extension']:
+                # Guardamos el cambio ocurrido en la base de datos
+                self.cursor.execute("""UPDATE productos SET nombre = ?, descripcion = ?, imagen = ?, extension = ?,  precio = ?, existencias = ?, hash = ?
+                                    WHERE id_productos = ? AND hash = ?""", (producto["nombre"], producto["descripcion"], producto["imagen"], producto["extension"],
+                                                                float(producto["precio"]), int(producto["existencia"]), producto["hash"], int(producto["producto"]), producto['antiguo_hash']))
+            else:
+                # Guardamos el cambio ocurrido en la base de datos
+                self.cursor.execute("""UPDATE productos SET nombre = ?, descripcion = ?,  precio = ?, existencias = ?, hash = ?
+                                    WHERE id_productos = ? AND hash = ?""", (producto["nombre"], producto["descripcion"],
+                                                                float(producto["precio"]), int(producto["existencia"]), producto["hash"], int(producto["producto"]), producto['antiguo_hash']))
             result = self.cursor.rowcount
             # En caso de existir algún cambio, la variable response para a ser True
             if result:

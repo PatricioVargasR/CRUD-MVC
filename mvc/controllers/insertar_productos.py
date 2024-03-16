@@ -30,7 +30,7 @@ class InsertarProductos:
         # En caso de ocurrir algún error, imprime el error en la consola y manda un mensaje en pantalla
         except Exception as error:
             print(f'Ocurrió un error: {error} - 104 | Controlador')
-            return "Ocurrió un error"
+            return render.error('No se pudo cargar la vista', '/')
 
     def POST(self):
         """
@@ -41,13 +41,30 @@ class InsertarProductos:
         try:
             # Obtenemos todas las entradas del formuarlio
             entrada = web.input(imagen = {})
+
+            # Validamos en caso de no haber datos ingresados
+            if not entrada['precio'] or not entrada['nombre_producto'] or not entrada['existencia'] or not entrada['descripcion']:
+                return render.error('No completó todos los campos', '/insertar')
+
+            # Validamos en caso de no haber imagen de la imagen
+            if len(entrada['imagen'].value) <= 0:
+                return render.error('No insertó la imagen', '/insertar')
+
             # Obtenemos la extesión de la imagen
             extension = entrada['imagen'].filename.split('.')
             # Obtenemos el tamaño de la imagen
             tamaño = len(entrada['imagen'].value)
 
+            # Validamos el tamaño de la imagen
+            if tamaño >= tamaño_maximo:
+                return render.error('El tamaño de la imagen excede lo permitido', '/insertar')
+
+            # Validamos las existencias y el precio
+            if float(entrada.precio) <= 0 or int(entrada.existencia) < 0:
+                return render.error('No se permite precios nulos ni existencias menores que cero', '/insertar')
+
             # En caso de de hubiera una entrada guardamos cada entrada especifica en su campo correspondiente
-            if entrada and tamaño <= tamaño_maximo:
+            if entrada:
                 # Generamos la cadena a hashear:
                 cadena = f"{entrada.nombre_producto}{entrada.descripcion}"
                 # Actualizamos el objeto hash con los strings
@@ -65,8 +82,6 @@ class InsertarProductos:
                 }
                 # Invocamos la función insertarProductos la cuál recibe como parámetro el diccionario del producto
                 resultado = PRODUCTO.insertarProductos(producto)
-            else:
-                return render.error()
             # En caso de haber un resultado, se redirecciona a la pantalla principal
             if resultado:
                 web.seeother("/")
@@ -75,4 +90,4 @@ class InsertarProductos:
         # En caso de ocurrir algún error, imprime el error en la consolta y manda un mensaje en pantalla
         except Exception as error:
             print(f"Ocurrió un error: {error} - 104_2 | Controlador")
-            return "Ocurrió un error"
+            return render.error('No se logró insertar el nuevo producto', '/')
