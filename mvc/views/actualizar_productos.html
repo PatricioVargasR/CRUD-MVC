@@ -5,7 +5,6 @@ $def with (producto)
     <div>
       <h2 class="font-semibold text-xl text-gray-600">Actualizar Producto</h2>
       <p class="text-gray-500 mb-6">Modifica los datos de producto</p>
-      
       <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
         <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
           <div class="text-gray-600">
@@ -48,9 +47,11 @@ $def with (producto)
                           </svg>
                           <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Presiona para subir</span> o arrastra y suelta</p>
                           <p class="text-xs text-gray-500">SVG, PNG, JPG (1MB MAX)</p>
+                          <p class="text-xs text-gray-500">Imagen actual:</p>
                       </div>
                       <input id="imagen" name="imagen" type="file" class="hidden" accept="image/*"/>
-                  </label>
+                      <img src="data:image/$dato['extension'];base64, $dato['imagen']" alt="" width="75" height="75">
+                    </label>
 
               </div>
                 <div class="md:col-span-5 text-right">
