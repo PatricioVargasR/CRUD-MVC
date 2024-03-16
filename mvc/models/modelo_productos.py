@@ -30,7 +30,7 @@ class ModeloProductos:
         try:
             # Creamos la conexión y ejecutamos la sentencia SQL correspondiete
             self.connect()
-            self.cursor.execute('SELECT * FROM productos ORDER BY id_productos DESC LIMIT 1')
+            self.cursor.execute('SELECT * FROM productos ORDER BY id_productos DESC LIMIT 10')
             # Iteramos sobre el cursor, el cuál almacena el resultado para crear un diccionario de cada producto
             for row in self.cursor:
                 product = {

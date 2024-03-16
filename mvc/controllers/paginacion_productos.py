@@ -21,7 +21,7 @@ class PaginacionProductos:
             # Convertimos el parámetro de la url
             pagina = int(pagina)
             # Definimos los items por página
-            por_pagina = 1
+            por_pagina = 10
             # Definimos la cantidad de items a saltarse
             offset = (pagina - 1) * por_pagina
 
